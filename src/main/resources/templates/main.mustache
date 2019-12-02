@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Add USER</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <h3>Add new user, please!</h3>
+        <div>
+            <form method="post" action="/">
+                <input type="text" name="name" placeholder="Имя"/>
+                <input type="text" name="email" placeholder="E-mail"/>
+                <button type="submit">Добавить пользователя</button>
+            </form>
+        </div>
+        <br>
+
+        <div>
+            <form method="post" action="filter">
+                <input type="text" name="filter"/>
+                <button type="submit">Найти</button>
+            </form>
+        </div>
+        <br>
+
+        <div><h4> Список пользователей</h4></div>
+
+        {{#users}}
+        <div>
+                <b>{{id}}</b>
+                <span>{{name}}</span>
+                <i>{{email}}</i>
+        </div>
+        {{/users}}
+
+    </body>
+</html>
