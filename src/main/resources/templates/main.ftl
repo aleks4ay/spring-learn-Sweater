@@ -3,9 +3,10 @@
 
 <@c.page>
 <h4>Add new message, please!</h4>
+<div>
     <@l.logout/>
-
-
+    <span><a href="/user">User List</a></span>
+</div>
         <div>
             <form method="post" action="/main">
                 <input type="text" name="text" placeholder="Введите текст"/>
