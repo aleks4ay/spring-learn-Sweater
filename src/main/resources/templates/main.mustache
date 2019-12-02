@@ -1,16 +1,25 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Add USER</title>
+        <title>Add message</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-        <h3>Add new user, please!</h3>
+        <h3>Add new message, please!</h3>
+
         <div>
-            <form method="post" action="/">
-                <input type="text" name="name" placeholder="Имя"/>
-                <input type="text" name="email" placeholder="E-mail"/>
-                <button type="submit">Добавить пользователя</button>
+            <form action="/logout" method="post">
+                <input type="submit" value="Sign Out"/>
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+            </form>
+        </div>
+
+        <div>
+            <form method="post" action="/main">
+                <input type="text" name="text" placeholder="Введите текст"/>
+                <input type="text" name="tag" placeholder="Тэг"/>
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}">
+                <button type="submit">Добавить сообщение</button>
             </form>
         </div>
         <br>
@@ -18,20 +27,21 @@
         <div>
             <form method="post" action="filter">
                 <input type="text" name="filter"/>
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}">
                 <button type="submit">Найти</button>
             </form>
         </div>
         <br>
 
-        <div><h4> Список пользователей</h4></div>
+        <div><h4> Список сообщений</h4></div>
 
-        {{#users}}
+        {{#messages}}
         <div>
                 <b>{{id}}</b>
-                <span>{{name}}</span>
-                <i>{{email}}</i>
+                <span>{{text}}</span>
+                <i>{{tag}}</i>
         </div>
-        {{/users}}
+        {{/messages}}
 
     </body>
 </html>
