@@ -1,13 +1,13 @@
 package ua.aleks4ay.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import ua.aleks4ay.domain.Role;
 import ua.aleks4ay.domain.User;
 import ua.aleks4ay.repos.UserRepo;
@@ -25,6 +25,9 @@ public class UserService  implements UserDetailsService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${hostname}")
+    private String hostname;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -51,17 +54,18 @@ public class UserService  implements UserDetailsService{
 
         userRepo.save(user);
 
-        sengMessage(user);
+        sendMessage(user);
 
         return true;
     }
 
-    private void sengMessage(User user) {
+    private void sendMessage(User user) {
         if (! StringUtils.isEmpty(user.getEmail())) {
             String message = String.format(
                     "Hello, %s! \nWelcome to Sweater. \n" +
-                    "Please, visit next link: http://localhost:8080/activate/%s",
+                    "Please, visit next link: http://%s/activate/%s",
                     user.getUsername(),
+                    hostname,
                     user.getActivationCode()
             );
             mailSender.send(user.getEmail(), "Activation code", message);
@@ -116,7 +120,7 @@ public class UserService  implements UserDetailsService{
         userRepo.save(user);
 
         if (isEmailChanged) {
-            sengMessage(user);
+            sendMessage(user);
         }
     }
 }
